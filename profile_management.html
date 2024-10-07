@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Management</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Popup styles */
+    #popup-profile {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #ffffff;
+      padding: 20px;
+      border: 2px solid #007bff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      z-index: 9999;
+      max-width: 90%;
+      max-height: 80%;
+      overflow: auto;
+    }
+
+    /* Close button */
+    .close-btn {
+      display: inline-block;
+      font-size: 18px;
+      color: #007bff;
+      cursor: pointer;
+      float: right;
+      margin: -10px -10px 10px 0;
+    }
+
+    /* Profile form styles */
+    #popup-profile h2 {
+      color: #007bff;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    #popup-profile label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    #popup-profile input[type="text"],
+    #popup-profile input[type="number"],
+    #popup-profile input[type="file"],
+    #popup-profile select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    #popup-profile img {
+      max-width: 100%;
+      height: auto;
+      margin-top: 10px;
+    }
+
+    #popup-profile button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      color: #ffffff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #popup-profile button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Button to show popup */
+    #show-popup-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      color: #ffffff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #show-popup-btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Button to show popup -->
+<button id="show-popup-btn">Manage Profile</button>
+
+<!-- Popup content -->
+<div id="popup-profile">
+  <span class="close-btn"><i class="fas fa-times"></i></span>
+  <h2>Profile Management</h2>
+  <form id="profile-form">
+    <label for="avatar">Avatar</label>
+    <input type="file" id="avatar" name="avatar" accept="image/*">
+    <img id="avatar-preview" src="" alt="Avatar Preview">
+
+    <label for="name">Full Name</label>
+    <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+
+    <label for="age">Age</label>
+    <input type="number" id="age" name="age" placeholder="Enter your age" required>
+
+    <label for="weight">Weight (kg)</label>
+    <input type="number" id="weight" name="weight" placeholder="Enter your weight in kg" required>
+
+    <label for="gender">Gender</label>
+    <select id="gender" name="gender" required>
+      <option value="" disabled selected>Select your gender</option>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+      <option value="other">Other</option>
+    </select>
+
+    <button type="submit">Save Profile</button>
+  </form>
+</div>
+
+<script>
+  // JavaScript to open and close the popup
+  document.querySelector('.close-btn').addEventListener('click', function() {
+    document.getElementById('popup-profile').style.display = 'none';
+  });
+
+  // Function to show the popup
+  document.getElementById('show-popup-btn').addEventListener('click', function() {
+    document.getElementById('popup-profile').style.display = 'block';
+  });
+
+  // Display the selected avatar image
+  document.getElementById('avatar').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('avatar-preview').src = e.target.result;
+      }
+      reader.readAsDataURL(file);
+    } else {
+      document.getElementById('avatar-preview').src = '';
+    }
+  });
+
+  // Handle form submission
+  document.getElementById('profile-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    // Gather form data
+    const formData = new FormData(this);
+
+    // Optional: Handle file upload and send data to the server
+    // Example: Log data to console (for demonstration purposes)
+    console.log('Form submitted!');
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+
+    // Optionally, hide the popup after submission
+    document.getElementById('popup-profile').style.display = 'none';
+  });
+</script>
+
+</body>
+</html>
